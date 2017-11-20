@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html, body
+{
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  overflow: hidden;
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src='{{ host_prefix }}/{{ static_path }}/wb_frame.js'> </script>
+
+<!-- depndencies custom Arquivo.pt -->
+<link rel='stylesheet' href='{{ host_prefix }}/{{ static_path }}/css/myStyle.css'/>
+<link rel="stylesheet" href="{{ host_prefix }}/{{ static_path }}/css/font-awesome.min.css">
+
+<!-- end dependencies arquivo.pt -->
+
+
+{% include banner_html ignore missing %}
+
+
+<link rel="stylesheet" href="{{ host_prefix }}/{{ static_path }}/css/bootstrap.min.css">
+<script src="{{ host_prefix }}/{{ static_path }}/js/jquery-latest.min.js"></script>
+<script src="{{ host_prefix }}/{{ static_path }}/js/bootstrap.min.js"></script>
+
+<!-- Slider -->
+<link rel="stylesheet" href="{{ host_prefix }}/{{ static_path }}/css/swiper.min.css">
+<link rel="stylesheet" href="{{ host_prefix }}/{{ static_path }}/css/swipeCustom.css">
+<!-- End Slider Right -->
+
+<title>Arquivo.pt</title>
+
+</head>
+
+<body style="margin: 0px; padding: 0px;">
+<div class="swiper-container swiper-container-horizontal">
+<div class="swiper-wrapper" id="swiperWrapper" style="">
+  <div class="swiper-slide content swiper-slide-active">
+    <div class="main-content" style="width:100%;height: 100%;">
+      <div class="container-fluid">
+        <div class="row text-center" style="padding-top:10px;padding-bottom:10px;background-color: #252525;border-bottom: solid 1px white;line-height: 30px;">
+                    <img src="{{ host_prefix }}/{{ static_path }}/img/01_preto.png" id="arquivoLogo" alt="Logo Arquivo.pt" style="width:auto;max-height: 30px;" class="text-center">
+                    <a class="pull-right" style="color:white;font-size:23px;padding-right: 15px;line-height: 30px;vertical-align: middle; cursor: pointer;" id="menuButton"><i class="fa fa-bars" style=""></i></a>
+        </div>  
+      </div>      
+<div id="wb_iframe_div">
+<iframe id="replay_iframe" frameborder="0" seamless="seamless" scrolling="yes" class="wb_iframe"></iframe>
+</div>
+<script>
+  var cframe = new ContentFrame({"url": "{{ url }}" + window.location.hash,
+                                 "prefix": "{{ wb_prefix }}",
+                                 "request_ts": "{{ wb_url.timestamp }}",
+                                 "iframe": "#replay_iframe"});
+
+</script>
+         
+    </div>
+    <!-- this is the mask div to show when you choose menu -->
+    <div class="maskMenu" style=""></div>
+    <!--end mask -->    
+  </div>
+  <div class="swiper-slide menu swiper-slide-prev">
+
+    <img src="{{ host_prefix }}/{{ static_path }}/img/01_preto.png" alt="Logo Arquivo.pt" class="img-responsive center-block" style="width: 80%;padding-bottom: 35px">
+    <a href="http://p27.arquivo.pt/indexBootstrap.jsp"><h4>Nova Pesquisa</h4></a>
+    <script type="text/javascript">
+      document.write('<a href="http://p27.arquivo.pt/searchBootstrap.jsp?l=pt&query={{url}}"><h4>Ver todas as vers&otilde;es</h4></a>');
+    </script>
+    <script type="text/javascript">
+      document.write('<a href="http://timetravel.mementoweb.org/reconstruct/{{ wb_url.timestamp }}/{{url}}"><h4>Completar</h4></a>');
+    </script>
+    <a id="screenshotOption"><h4>Guardar</h4></a>
+    <a href="http://google.pt"><h4>Imprimir</h4></a>
+    <a class='addthis_button_facebook' href='' onClick="ga('send', 'event', 'ReplayBarFunctions', 'FacebookShare', 'http://arquivo.pt/noFrame/replay/{{ wb_url.timestamp }}/{{url}}');"><h4>Facebook</h4></a>
+    <a  class='addthis_button_twitter' onClick="ga('send', 'event', 'ReplayBarFunctions', 'Twitter', 'http://arquivo.pt/noFrame/replay/{{ wb_url.timestamp }}/{{url}}');"><h4>Twitter</h4></a>
+    <a href="http://google.pt"><h4>Email</h4></a>
+    <a href="http://sobre.arquivo.pt/pt/ajuda/"><h4>Ajuda</h4></a>
+    <a href="http://google.pt"><h4>English</h4></a>
+  </div>
+</div>
+</div>
+
+
+<!-- scripts slider right menu -->
+<script src="http://p27.arquivo.pt/swipe/demos/swiper.min.js"></script>
+<script src="http://p27.arquivo.pt/js/jquery-latest.min.js"></script>
+
+<script>
+    var ignoreInitialTransitionEnd = 0;
+    var toggleMenu = function(){
+      if (swiper.previousIndex == 0)
+        swiper.slidePrev()
+    }
+    /*, menuButton = document.getElementsByClassName('menu-button')[0]*/
+    , swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto'
+      , initialSlide: 1
+      , resistanceRatio: .00000000000001
+      , onSlideChangeStart: function(slider) {
+        if (slider.activeIndex == 0) {
+          /*menuButton.removeEventListener('click', toggleMenu, false)*/
+        }
+          
+      }
+
+      ,onTransitionEnd: function(slider){
+        if(ignoreInitialTransitionEnd === 0){
+          ignoreInitialTransitionEnd+=1;
+          return;
+        }
+        if( $('.swiper-wrapper').css('transform').split(',')[4] != 0){
+          $('.swiper-wrapper').addClass('active');
+          $('.maskMenu').fadeIn(150);    
+        }
+        else{
+          $('.swiper-wrapper').removeClass('active');
+          $('.maskMenu').fadeOut();             
+        }
+      }
+      , onSlideChangeEnd: function(slider) {
+        if (slider.activeIndex == 0){
+          menuButton.removeEventListener('click', toggleMenu, false);
+        }
+        else{
+          $('.swiper-wrapper').addClass('active');
+          menuButton.addEventListener('click', toggleMenu, false);
+        }
+      }
+      , slideToClickedSlide: true
+    })
+</script>
+<script type="text/javascript">
+        $('.swiper-wrapper').css('-webkit-transition', 'all 0s linear' );
+        $('.swiper-wrapper').css('-moz-transition', 'all 0s linear' );
+        $('.swiper-wrapper').css('-o-transition', 'all 0s linear' );
+        $('.swiper-wrapper').css('-ms-transition', 'all 0s linear' );
+        $('.swiper-wrapper').css('transition', 'all 0s linear' );
+        $('.swiper-wrapper').css('transform', 'translate3d(0px, 0px, 0px)' );
+        $('.swiper-wrapper').css('-webkit-transform', 'translate3d(0px, 0px, 0px)' );
+</script>
+<script type="text/javascript">
+$('.maskMenu').on('click', function (e) { 
+      $('.swiper-wrapper').css('-webkit-transition', 'all 0.3s linear' );
+      $('.swiper-wrapper').css('-moz-transition', 'all 0.3s linear' );
+      $('.swiper-wrapper').css('-o-transition', 'all 0.3s linear' );
+      $('.swiper-wrapper').css('-ms-transition', 'all 0.3s linear' );
+      $('.swiper-wrapper').css('transition', 'all 0.3s linear' );
+      $('.swiper-wrapper').css('transform', 'translate3d(0px, 0px, 0px)' );
+      $('.swiper-wrapper').css('-webkit-transform', 'translate3d(0px, 0px, 0px)' );
+      $('.swiper-wrapper').removeClass('active');
+      $('.maskMenu').fadeOut();   
+});  
+</script>
+<script type="text/javascript">
+  $('#menuButton').on('click', function(e){
+    console.log('opening from menu click');
+    $('.swiper-wrapper').addClass('active');
+    $('.swiper-wrapper').css('-webkit-transition', 'all 0.3s linear' );
+    $('.swiper-wrapper').css('-moz-transition', 'all 0.3s linear' );
+    $('.swiper-wrapper').css('-o-transition', 'all 0.3s linear' );
+    $('.swiper-wrapper').css('-ms-transition', 'all 0.3s linear' );
+    $('.swiper-wrapper').css('transition', 'all 0.3s linear' );
+    $('.swiper-wrapper').css('transform', 'translate3d(-'+$('.menu').width()+'px, 0px, 0px)' );
+    $('.swiper-wrapper').css('-webkit-transform', 'translate3d(-'+$('.menu').width()+'px, 0px, 0px)' );
+    $('.maskMenu').fadeIn(150);    
+  });
+</script>
+<script>
+  $('#screenshotOption').on('click', function(e){
+    window.open('http://p27.arquivo.pt/screenshot/?url='+encodeURIComponent("http://arquivo.pt/noFrame/replay"+ window.location.pathname)+"&width="+window.screen.width/*window.innerWidth*/+"&height="+/*window.innerHeight*/ window.screen.width);
+  });
+</script>
+<!-- end right menu scripts -->
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+    var title = $("#replay_iframe").contents().find("meta[property='og:title']").attr("content");
+    if(title === undefined || title === null) // there is no og:title meta tag in this iframe
+    {
+        title = $("#replay_iframe").contents().find("title").html(); //search for a title tag in the iframe
+        if (title === undefined || !title.length){ //there is no title 
+            //top.alert("No title");
+            title = "Arquivo.pt"/*Content.shareMessage;*/
+        }
+    }
+    title = title + " - preservado pelo Arquivo.pt"/*Content.preservedByArquivo*/;
+    document.title = title;
+
+    var addthis_share = addthis_share || {}
+    addthis_share = {
+      passthrough : {
+        twitter: {
+          text: " "+ title
+        }
+      }
+    }
+
+  var addthis_config = addthis_config||{};
+  addthis_config.data_track_addressbar = false;
+  addthis_config.data_track_clickback = false;
+
+  theurl= 'http://arquivo.pt/wayback/'+"{{ wb_url.timestamp }}"+'/'+"{{url}}";
+  addthis.update('share', 'url', theurl);
+  addthis.toolbox('.addthis_toolbox', addthis_config, addthis_share); 
+  });
+</script>
+
+<!-- Go to www.addthis.com/dashboard to customize your tools --> <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5645cdb2e22ca317"></script> 
+<!-- end addthis for sharing on social media -->
+<script type="text/javascript">
+    
+</script>    
+
+</body>
+</html>
